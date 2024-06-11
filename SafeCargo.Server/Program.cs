@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SafeCargo.Server.Data;
-using SafeCargo.Server.Interfaces;
-using SafeCargo.Server.Repositories;
-using SafeCargo.Server.Services;
 using SafeCargo.Server.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,10 +15,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         new MySqlServerVersion(new Version(8, 0, 21)) // Especifique a versão do MySQL aqui
     ));
 
-// Add repositories and services
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IAccessLevelRepository, AccessLevelRepository>();
-builder.Services.AddScoped<IAccessLevelService, AccessLevelService>();
+// Add custom services and repositories
+builder.Services.AddCustomServices(); // Chamar o método de extensão para registrar serviços e repositórios
 
 // Add Swagger documentation
 builder.Services.AddSwaggerDocumentation();

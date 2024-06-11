@@ -1,31 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using SafeCargo.Server.Data;
-using SafeCargo.Server.Interfaces;
+﻿using SafeCargo.Server.Interfaces;
 using SafeCargo.Server.Models;
+using SafeCargo.Server.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
-namespace SafeCargo.Server.Repositories
+namespace SafeCargo.Server.Services
 {
     /// <summary>
-    /// Repositório para gerenciar operações de CRUD para a entidade User.
+    /// Serviço para gerenciar operações de CRUD para a entidade User.
     /// </summary>
-    public class UserRepository : IUserRepository
+    public class UserService : IUserService
     {
-        private readonly ApplicationDbContext _context;
-        private readonly ILogger<UserRepository> _logger;
+        private readonly IUserRepository _userRepository;
+        private readonly ILogger<UserService> _logger;
 
         /// <summary>
-        /// Construtor do UserRepository.
+        /// Construtor do UserService.
         /// </summary>
-        /// <param name="context">O contexto do banco de dados.</param>
+        /// <param name="userRepository">O repositório para acessar os dados dos usuários.</param>
         /// <param name="logger">O logger para logging de informações e erros.</param>
-        public UserRepository(ApplicationDbContext context, ILogger<UserRepository> logger)
+        public UserService(IUserRepository userRepository, ILogger<UserService> logger)
         {
-            _context = context;
+            _userRepository = userRepository;
             _logger = logger;
         }
 
@@ -37,7 +35,7 @@ namespace SafeCargo.Server.Repositories
         {
             try
             {
-                return await _context.Users.ToListAsync();
+                return await _userRepository.GetAllUsersAsync();
             }
             catch (Exception ex)
             {
@@ -55,7 +53,7 @@ namespace SafeCargo.Server.Repositories
         {
             try
             {
-                return await _context.Users.FindAsync(id);
+                return await _userRepository.GetUserByIdAsync(id);
             }
             catch (Exception ex)
             {
@@ -73,7 +71,7 @@ namespace SafeCargo.Server.Repositories
         {
             try
             {
-                return await _context.Users.SingleOrDefaultAsync(u => u.Username == username);
+                return await _userRepository.GetUserByUsernameAsync(username);
             }
             catch (Exception ex)
             {
@@ -91,7 +89,7 @@ namespace SafeCargo.Server.Repositories
         {
             try
             {
-                return await _context.Users.Where(u => u.CodLevel == codLevel).ToListAsync();
+                return await _userRepository.GetUsersByCodLevelAsync(codLevel);
             }
             catch (Exception ex)
             {
@@ -109,9 +107,9 @@ namespace SafeCargo.Server.Repositories
         {
             try
             {
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
-                return user;
+                user.PasswordHash = PasswordHasher.HashPassword(user.PasswordHash);
+                user.CreatedAt = DateTime.UtcNow;
+                return await _userRepository.CreateUserAsync(user);
             }
             catch (Exception ex)
             {
@@ -129,9 +127,12 @@ namespace SafeCargo.Server.Repositories
         {
             try
             {
-                _context.Users.Update(user);
-                await _context.SaveChangesAsync();
-                return user;
+                if (!string.IsNullOrEmpty(user.PasswordHash))
+                {
+                    user.PasswordHash = PasswordHasher.HashPassword(user.PasswordHash);
+                }
+                user.UpdatedAt = DateTime.UtcNow;
+                return await _userRepository.UpdateUserAsync(user);
             }
             catch (Exception ex)
             {
@@ -149,10 +150,7 @@ namespace SafeCargo.Server.Repositories
         {
             try
             {
-                user.DeletedAt = DateTime.UtcNow;
-                _context.Users.Update(user);
-                await _context.SaveChangesAsync();
-                return user;
+                return await _userRepository.DeleteUserAsync(user);
             }
             catch (Exception ex)
             {
