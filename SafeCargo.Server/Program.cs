@@ -1,7 +1,8 @@
+using SafeCargo.Server.Extensions;
 using Microsoft.EntityFrameworkCore;
 using SafeCargo.Server.Data;
-using SafeCargo.Server.Extensions;
-using Microsoft.Extensions.DependencyInjection;
+using SafeCargo.Server.Interfaces;
+using SafeCargo.Server.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     ));
 
 // Add custom services and repositories
-builder.Services.AddCustomServices(); // Chamar o método de extensão para registrar serviços e repositórios
+builder.Services.AddCustomServices();
+
+// Configure JWT Authentication
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 // Add Swagger documentation
 builder.Services.AddSwaggerDocumentation();
@@ -37,6 +41,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseAuthentication(); // Adicione esta linha
 app.UseAuthorization();
 app.MapControllers();
 

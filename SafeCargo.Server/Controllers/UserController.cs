@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SafeCargo.Server.DTOs;
 using SafeCargo.Server.Interfaces;
 using SafeCargo.Server.Models;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace SafeCargo.Server.Controllers
 {
+    [Authorize] // Adiciona a política de autorização padrão para todos os métodos do controlador
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
