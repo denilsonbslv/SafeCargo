@@ -28,7 +28,6 @@
     <Folder Include="wwwroot\" />
     <Folder Include="Tests\" />
     <Folder Include="Configurations\" />
-    <Folder Include="Middlewares\" />
     <Folder Include="Connected Services\" />
   </ItemGroup>
 

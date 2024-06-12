@@ -48,6 +48,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRequestLogging(); // Adicionar o middleware personalizado aqui
 app.MapControllers();
 
 app.Run();
