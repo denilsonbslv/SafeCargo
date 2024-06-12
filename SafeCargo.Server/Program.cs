@@ -20,15 +20,43 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Add custom services and repositories
 builder.Services.AddCustomServices();
 
-// Load Access Levels and configure custom authorization
-await AccessLevelLoader.LoadAccessLevels(builder.Services.BuildServiceProvider());
-builder.Services.AddCustomAuthorization();
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 // Configure JWT Authentication
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 // Add Swagger documentation
 builder.Services.AddSwaggerDocumentation();
+
+// Ensure database is created and migrations are applied
+using (var scope = builder.Services.BuildServiceProvider().CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        context.Database.Migrate();
+
+        // Load Access Levels and configure custom authorization
+        await AccessLevelLoader.LoadAccessLevels(services);
+        builder.Services.AddCustomAuthorization();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+    }
+}
 
 var app = builder.Build();
 
@@ -44,11 +72,11 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRequestLogging(); // Adicionar o middleware personalizado aqui
 app.MapControllers();
-
 app.Run();

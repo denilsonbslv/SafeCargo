@@ -47,31 +47,31 @@ namespace SafeCargo.Server.Data.Migrations
                         new
                         {
                             CodLevel = "ADMIN",
-                            CreatedAt = new DateTime(2024, 6, 12, 3, 14, 25, 789, DateTimeKind.Utc).AddTicks(582),
+                            CreatedAt = new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1339),
                             DescLevel = "Administrador"
                         },
                         new
                         {
                             CodLevel = "MANAGER",
-                            CreatedAt = new DateTime(2024, 6, 12, 3, 14, 25, 789, DateTimeKind.Utc).AddTicks(584),
+                            CreatedAt = new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1372),
                             DescLevel = "Gerente"
                         },
                         new
                         {
                             CodLevel = "SUPERVISOR",
-                            CreatedAt = new DateTime(2024, 6, 12, 3, 14, 25, 789, DateTimeKind.Utc).AddTicks(585),
+                            CreatedAt = new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1373),
                             DescLevel = "Supervisor"
                         },
                         new
                         {
                             CodLevel = "OPERATOR",
-                            CreatedAt = new DateTime(2024, 6, 12, 3, 14, 25, 789, DateTimeKind.Utc).AddTicks(586),
+                            CreatedAt = new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1374),
                             DescLevel = "Operador"
                         },
                         new
                         {
                             CodLevel = "VIEWER",
-                            CreatedAt = new DateTime(2024, 6, 12, 3, 14, 25, 789, DateTimeKind.Utc).AddTicks(587),
+                            CreatedAt = new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1375),
                             DescLevel = "Visualizador"
                         });
                 });
@@ -119,8 +119,8 @@ namespace SafeCargo.Server.Data.Migrations
                         {
                             Id = 1,
                             CodLevel = "ADMIN",
-                            CreatedAt = new DateTime(2024, 6, 12, 3, 14, 25, 790, DateTimeKind.Utc).AddTicks(1968),
-                            PasswordHash = "1nrcu3IznQ5KWSbtFZ6SHw==.vH72FivywEPTMcryMTFUXz0x/G5k2Qd/f75+zfctxOA=",
+                            CreatedAt = new DateTime(2024, 6, 12, 6, 56, 52, 743, DateTimeKind.Utc).AddTicks(2507),
+                            PasswordHash = "J+VLtw6/d7jyWHgNA6Fe3A==.M8EG1nUfxs1R/DImtqdp0e0SAkmnRZrh18e3lALUDUg=",
                             Username = "admin"
                         });
                 });

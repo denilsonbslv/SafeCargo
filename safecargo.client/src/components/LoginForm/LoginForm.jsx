@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ThemeProvider } from 'styled-components';
+import { login } from '../../../services/api';
 import { LoginContainer, LoginBox, Logo, StyledInput, StyledButton, ToggleButton } from './LoginForm.styles';
-import logo from '../../assets/logo.png'; // certifique-se de ter a logo na pasta assets
+import logo from '../../assets/logo.png';
 
 const lightTheme = {
   background: '#f0f2f5',
@@ -42,11 +42,11 @@ const LoginForm = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('/api/login', { username, password });
-      localStorage.setItem('token', response.data.token);
+      const data = await login(username, password);
+      localStorage.setItem('token', data.Token);
       navigate('/dashboard');
     } catch (error) {
-      alert('Login failed');
+      alert('Falha no login');
     }
   };
 

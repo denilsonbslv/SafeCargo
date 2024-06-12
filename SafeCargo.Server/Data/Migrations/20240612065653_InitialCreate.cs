@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace SafeCargo.Server.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedDefaultAccessLevelAndUser : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -64,12 +66,19 @@ namespace SafeCargo.Server.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AccessLevels",
                 columns: new[] { "CodLevel", "CreatedAt", "DeletedAt", "DescLevel", "UpdatedAt" },
-                values: new object[] { "ADMIN", new DateTime(2024, 6, 10, 22, 45, 5, 112, DateTimeKind.Utc).AddTicks(7061), null, "Administrador", null });
+                values: new object[,]
+                {
+                    { "ADMIN", new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1339), null, "Administrador", null },
+                    { "MANAGER", new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1372), null, "Gerente", null },
+                    { "OPERATOR", new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1374), null, "Operador", null },
+                    { "SUPERVISOR", new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1373), null, "Supervisor", null },
+                    { "VIEWER", new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1375), null, "Visualizador", null }
+                });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CodLevel", "CreatedAt", "DeletedAt", "PasswordHash", "UpdatedAt", "Username" },
-                values: new object[] { 1, "ADMIN", new DateTime(2024, 6, 10, 22, 45, 5, 113, DateTimeKind.Utc).AddTicks(8687), null, "jl3O8QjBKZMBlNb07vZotQ==.vbYYRwItOdoc5Yq873kcuZjSnA2e+YLoHhPDFe3Wf0I=", null, "admin" });
+                values: new object[] { 1, "ADMIN", new DateTime(2024, 6, 12, 6, 56, 52, 743, DateTimeKind.Utc).AddTicks(2507), null, "J+VLtw6/d7jyWHgNA6Fe3A==.M8EG1nUfxs1R/DImtqdp0e0SAkmnRZrh18e3lALUDUg=", null, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_CodLevel",
