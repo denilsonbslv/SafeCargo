@@ -1,15 +1,44 @@
-import { useState } from 'react'; // Import the 'useState' hook from 'react'
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Input from '../Input/Input';
-import Button from '../Button/Button';
-import { LoginContainer, LoginBox } from './LoginForm.styles';
+import { motion } from 'framer-motion';
+import { ThemeProvider } from 'styled-components';
+import { LoginContainer, LoginBox, Logo, StyledInput, StyledButton, ToggleButton } from './LoginForm.styles';
+import logo from '../../assets/logo.png'; // certifique-se de ter a logo na pasta assets
 
-// Componente de formulário de login
+const lightTheme = {
+  background: '#f0f2f5',
+  boxBackground: '#fff',
+  textColor: '#000',
+  buttonBackground: '#10a89e',
+  buttonHoverBackground: '#0e8f87',
+  inputBackground: '#fff',
+  inputBorder: '#ccc',
+  placeholderColor: '#888',
+  logoShadowColor: '#00000000'
+};
+
+const darkTheme = {
+  background: '#1e1e1e',
+  boxBackground: '#333',
+  textColor: '#fff',
+  buttonBackground: '#10a89e',
+  buttonHoverBackground: '#0e8f87',
+  inputBackground: '#555',
+  inputBorder: '#777',
+  placeholderColor: '#bbb',
+  logoShadowColor: '#fff'
+};
+
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [theme, setTheme] = useState(lightTheme);
   const navigate = useNavigate();
+
+  const toggleTheme = () => {
+    setTheme(theme === lightTheme ? darkTheme : lightTheme);
+  };
 
   const handleLogin = async () => {
     try {
@@ -22,24 +51,43 @@ const LoginForm = () => {
   };
 
   return (
-    <LoginContainer>
-      <LoginBox>
-        <h2>Login</h2>
-        <Input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <Input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button onClick={handleLogin}>Login</Button>
-      </LoginBox>
-    </LoginContainer>
+    <ThemeProvider theme={theme}>
+      <LoginContainer>
+        <motion.div 
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          transition={{ duration: 1 }}
+        >
+          <LoginBox>
+            <ToggleButton onClick={toggleTheme}>
+              {theme === lightTheme ? 'Modo Noturno' : 'Modo Claro'}
+            </ToggleButton>
+            <Logo src={logo} alt="Logo" />
+            <StyledInput
+              type="text"
+              placeholder="Nome de Usuário"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              whileFocus={{ scale: 1.05 }}
+            />
+            <StyledInput
+              type="password"
+              placeholder="Senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              whileFocus={{ scale: 1.05 }}
+            />
+            <StyledButton 
+              onClick={handleLogin} 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Entrar
+            </StyledButton>
+          </LoginBox>
+        </motion.div>
+      </LoginContainer>
+    </ThemeProvider>
   );
 };
 

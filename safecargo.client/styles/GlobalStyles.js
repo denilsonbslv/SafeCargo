@@ -9,7 +9,7 @@ const GlobalStyles = createGlobalStyle`
   
   body {
     font-family: Arial, sans-serif;
-    background-color: #f0f2f5;
+    background-color: #f0f2f5; /* cor de fundo clara */
   }
 `;
 
