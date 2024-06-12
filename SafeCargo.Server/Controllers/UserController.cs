@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace SafeCargo.Server.Controllers
 {
-    [Authorize] // Adiciona a política de autorização padrão para todos os métodos do controlador
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -33,6 +32,7 @@ namespace SafeCargo.Server.Controllers
         /// </summary>
         /// <returns>Uma lista de usuários.</returns>
         [HttpGet]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUsers()
         {
             var users = await _userService.GetAllUsersAsync();
@@ -60,6 +60,7 @@ namespace SafeCargo.Server.Controllers
         /// <param name="id">O ID do usuário.</param>
         /// <returns>O usuário correspondente ao ID.</returns>
         [HttpGet("{id}")]
+        [Authorize(Roles = "MANAGER, ADMIN")]
         public async Task<ActionResult<UserDTO>> GetUserById(int id)
         {
             var user = await _userService.GetUserByIdAsync(id);
@@ -87,6 +88,7 @@ namespace SafeCargo.Server.Controllers
         /// <param name="username">O nome de usuário.</param>
         /// <returns>O usuário correspondente ao nome de usuário.</returns>
         [HttpGet("username/{username}")]
+        [Authorize(Roles = "MANAGER, ADMIN")]
         public async Task<ActionResult<UserDTO>> GetUserByUsername(string username)
         {
             var user = await _userService.GetUserByUsernameAsync(username);
@@ -114,6 +116,7 @@ namespace SafeCargo.Server.Controllers
         /// <param name="userCreateDTO">Os dados para criação do usuário.</param>
         /// <returns>O usuário criado.</returns>
         [HttpPost]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<UserDTO>> CreateUser(UserCreateDTO userCreateDTO)
         {
             var user = new User
@@ -145,6 +148,7 @@ namespace SafeCargo.Server.Controllers
         /// <param name="userUpdateDTO">Os dados atualizados do usuário.</param>
         /// <returns>O resultado da atualização.</returns>
         [HttpPut]
+        [Authorize(Roles = "SUPERVISOR, ADMIN")]
         public async Task<IActionResult> UpdateUser(UserUpdateDTO userUpdateDTO)
         {
             if (string.IsNullOrEmpty(userUpdateDTO.Id))
@@ -186,6 +190,7 @@ namespace SafeCargo.Server.Controllers
         /// <param name="id">O ID do usuário a ser excluído.</param>
         /// <returns>O resultado da exclusão.</returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var user = await _userService.GetUserByIdAsync(id);

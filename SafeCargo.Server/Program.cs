@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SafeCargo.Server.Data;
 using SafeCargo.Server.Interfaces;
 using SafeCargo.Server.Repositories;
+using SafeCargo.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Add custom services and repositories
 builder.Services.AddCustomServices();
+
+// Load Access Levels and configure custom authorization
+await AccessLevelLoader.LoadAccessLevels(builder.Services.BuildServiceProvider());
+builder.Services.AddCustomAuthorization();
 
 // Configure JWT Authentication
 builder.Services.AddJwtAuthentication(builder.Configuration);
@@ -41,7 +46,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-app.UseAuthentication(); // Adicione esta linha
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

@@ -56,12 +56,37 @@ namespace SafeCargo.Server.Data
             });
 
             // Seed data para AccessLevel e User
-            modelBuilder.Entity<AccessLevel>().HasData(new AccessLevel
-            {
-                CodLevel = "ADMIN",
-                DescLevel = "Administrador",
-                CreatedAt = DateTime.UtcNow
-            });
+            modelBuilder.Entity<AccessLevel>().HasData(
+                new AccessLevel{
+                    CodLevel = "ADMIN",
+                    DescLevel = "Administrador",
+                    CreatedAt = DateTime.UtcNow
+                },
+                new AccessLevel
+                {
+                    CodLevel = "MANAGER",
+                    DescLevel = "Gerente",
+                    CreatedAt = DateTime.UtcNow
+                },
+                new AccessLevel
+                {
+                    CodLevel = "SUPERVISOR",
+                    DescLevel = "Supervisor",
+                    CreatedAt = DateTime.UtcNow
+                },
+                new AccessLevel
+                {
+                    CodLevel = "OPERATOR",
+                    DescLevel = "Operador",
+                    CreatedAt = DateTime.UtcNow
+                },
+                new AccessLevel
+                {
+                    CodLevel = "VIEWER",
+                    DescLevel = "Visualizador",
+                    CreatedAt = DateTime.UtcNow
+                }
+            );
 
             modelBuilder.Entity<User>().HasData(new User
             {

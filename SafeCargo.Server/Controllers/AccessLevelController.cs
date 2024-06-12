@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SafeCargo.Server.Controllers
 {
-    [Authorize] // Adiciona a política de autorização padrão para todos os métodos do controlador
+    [Authorize(Roles = "ADMIN")] // Adiciona a política de autorização padrão para todos os métodos do controlador
     [Route("api/[controller]")]
     [ApiController]
     public class AccessLevelController : ControllerBase
