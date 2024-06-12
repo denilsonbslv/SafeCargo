@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.34929.205
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeCargo.Server", "SafeCargo.Server\SafeCargo.Server.csproj", "{31868377-EC36-4EF1-9693-27415919C8FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SafeCargo.Server", "SafeCargo.Server\SafeCargo.Server.csproj", "{31868377-EC36-4EF1-9693-27415919C8FC}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "safecargo.client", "SafeCargo.Client\safecargo.client.esproj", "{35C48D24-05B3-463D-B8E3-823B9858F355}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,12 @@ Global
 		{31868377-EC36-4EF1-9693-27415919C8FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31868377-EC36-4EF1-9693-27415919C8FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31868377-EC36-4EF1-9693-27415919C8FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35C48D24-05B3-463D-B8E3-823B9858F355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35C48D24-05B3-463D-B8E3-823B9858F355}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35C48D24-05B3-463D-B8E3-823B9858F355}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{35C48D24-05B3-463D-B8E3-823B9858F355}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35C48D24-05B3-463D-B8E3-823B9858F355}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35C48D24-05B3-463D-B8E3-823B9858F355}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
