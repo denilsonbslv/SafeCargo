@@ -44,15 +44,15 @@ export const StyledInput = styled(motion.input)`
   width: 100%;
   padding: 12px;
   margin: 12px 0;
-  border: 2px solid ${({ theme }) => theme.inputBorder}; /* Bordas mais espessas */
+  border: 2px solid ${({ theme, invalid }) => (invalid ? 'red' : theme.inputBorder)};
   border-radius: 8px;
   font-size: 16px;
-  background-color: ${({ theme }) => theme.inputBackground};
+  background-color: ${({ theme, invalid }) => (invalid ? (theme.background === '#1e1e1e' ? '#553333' : '#ffe6e6') : theme.inputBackground)};
   font-family: 'Roboto', sans-serif;
   color: ${({ theme }) => theme.textColor};
 
   &::placeholder {
-    color: ${({ theme }) => theme.placeholderColor}; /* Cor mais clara para placeholders */
+    color: ${({ theme }) => theme.placeholderColor};
   }
 `;
 
