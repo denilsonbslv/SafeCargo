@@ -4,11 +4,13 @@ import { motion } from 'framer-motion';
 import { login } from '../../../services/api';
 import { LoginContainer, LoginBox, Logo, StyledInput, StyledButton } from './LoginForm.styles';
 import logo from '../../assets/logo.png';
+import Alert from '../Alert/Alert';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ username: false, password: false });
+  const [alert, setAlert] = useState({ show: false, type: '', message: '' });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,9 +37,12 @@ const LoginForm = () => {
     try {
       const data = await login(username, password);
       localStorage.setItem('token', data.Token);
-      navigate('/dashboard');
+      setAlert({ show: true, type: 'success', message: 'Login bem-sucedido. Redirecionando...' });
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 2000);
     } catch (error) {
-      alert('Falha no login');
+      setAlert({ show: true, type: 'error', message: 'Falha no login. Verifique seu nome de usuário e senha.' });
     }
   };
 
@@ -49,6 +54,7 @@ const LoginForm = () => {
 
   return (
     <LoginContainer>
+      {alert.show && <Alert type={alert.type} message={alert.message} onClose={() => setAlert({ ...alert, show: false })} />}
       <motion.div 
         initial={{ opacity: 0 }} 
         animate={{ opacity: 1 }} 
