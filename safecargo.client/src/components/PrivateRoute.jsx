@@ -1,19 +1,19 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import LoadingSpinner from './LoadingSpinner';
 import PropTypes from 'prop-types';
 
-const PrivateRoute = ({ children }) => {
+const PrivateRoute = ({ element: Component, ...rest }) => {
+    PrivateRoute.propTypes = {
+        element: PropTypes.node.isRequired,
+    };
   const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
-  return isAuthenticated ? children : <Navigate to="/login" />;
-};
-
-PrivateRoute.propTypes = {
-  children: PropTypes.node.isRequired,
+  return isAuthenticated ? <Component {...rest} /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;

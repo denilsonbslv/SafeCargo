@@ -39,6 +39,8 @@ const LoginForm = () => {
       const data = await loginService(username, password);
       login(data.token);
       setAlert({ show: true, type: 'success', message: 'Login bem-sucedido. Redirecionando...' });
+      sessionStorage.setItem('showAlert', 'true');
+      navigate('/dashboard');
     } catch (error) {
       setAlert({ show: true, type: 'error', message: 'Falha no login. Verifique seu nome de usuário e senha.' });
     }

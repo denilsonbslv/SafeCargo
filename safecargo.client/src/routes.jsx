@@ -3,15 +3,16 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import { useAuth } from './contexts/AuthContext';
 import PropTypes from 'prop-types';
+import LoadingSpinner from './components/LoadingSpinner';
 
 const PrivateRoute = ({ element: Component, ...rest }) => {
-  // Add 'children' to props validation
-  PrivateRoute.propTypes = {
-    element: PropTypes.node.isRequired,
-  };
   const { isAuthenticated, isLoading } = useAuth();
-  if (isLoading) return <div>Loading...</div>; // ou um spinner
+  if (isLoading) return <LoadingSpinner />;
   return isAuthenticated ? <Component {...rest} /> : <Navigate to="/login" />;
+};
+
+PrivateRoute.propTypes = {
+  element: PropTypes.node.isRequired,
 };
 
 const AppRoutes = () => (
