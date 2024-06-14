@@ -54,5 +54,39 @@ namespace SafeCargo.Server.Controllers
 
             return Ok(new { Token = tokenString });
         }
+
+        /// <summary>
+        /// Valida se um token JWT ainda é válido.
+        /// </summary>
+        /// <returns>True se o token for válido, caso contrário false.</returns>
+        [HttpPost("validate-token")]
+        public IActionResult ValidateToken([FromBody] TokenDTO tokenDTO)
+        {
+            if (string.IsNullOrEmpty(tokenDTO.Token))
+            {
+                return BadRequest("Token is required.");
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+            try
+            {
+                tokenHandler.ValidateToken(tokenDTO.Token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    // Set ClockSkew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+                    ClockSkew = TimeSpan.Zero
+                }, out SecurityToken validatedToken);
+
+                return Ok(true);
+            }
+            catch
+            {
+                return Unauthorized();
+            }
+        }
     }
 }

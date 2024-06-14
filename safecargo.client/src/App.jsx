@@ -5,6 +5,7 @@ import AppRoutes from './routes';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import styled from 'styled-components';
 import lightTheme from './themes/lightTheme';
+import { AuthProvider } from './contexts/AuthContext';
 
 const ThemeToggle = styled.button`
   position: absolute;
@@ -26,11 +27,13 @@ const App = () => {
 
   return (
     <>
-      <GlobalStyles />
-      <ThemeToggle onClick={toggleTheme}>
-        {theme === lightTheme ? <FaMoon /> : <FaSun />}
-      </ThemeToggle>
-      <AppRoutes />
+      <AuthProvider>
+        <GlobalStyles />
+        <ThemeToggle onClick={toggleTheme}>
+          {theme === lightTheme ? <FaMoon /> : <FaSun />}
+        </ThemeToggle>
+        <AppRoutes />
+      </AuthProvider>
     </>
   );
 };

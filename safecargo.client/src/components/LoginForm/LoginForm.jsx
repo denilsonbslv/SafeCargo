@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { login } from '../../../services/api';
+import { login as loginService } from '../../../services/api';
 import { LoginContainer, LoginBox, Logo, StyledInput, StyledButton } from './LoginForm.styles';
 import logo from '../../assets/logo.png';
 import Alert from '../Alert/Alert';
+import { useAuth } from '../../contexts/AuthContext';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -12,13 +13,13 @@ const LoginForm = () => {
   const [errors, setErrors] = useState({ username: false, password: false });
   const [alert, setAlert] = useState({ show: false, type: '', message: '' });
   const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();
 
   useEffect(() => {
-    setErrors({
-      username: username.length > 0 && username.length < 3,
-      password: password.length > 0 && password === ''
-    });
-  }, [username, password]);
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleLogin = async () => {
     const newErrors = { username: false, password: false };
@@ -35,12 +36,9 @@ const LoginForm = () => {
     }
 
     try {
-      const data = await login(username, password);
-      localStorage.setItem('token', data.Token);
+      const data = await loginService(username, password);
+      login(data.token);
       setAlert({ show: true, type: 'success', message: 'Login bem-sucedido. Redirecionando...' });
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 2000);
     } catch (error) {
       setAlert({ show: true, type: 'error', message: 'Falha no login. Verifique seu nome de usuário e senha.' });
     }
