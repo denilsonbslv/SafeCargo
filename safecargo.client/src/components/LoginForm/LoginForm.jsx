@@ -11,7 +11,7 @@ const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ username: false, password: false });
-  const [alert, setAlert] = useState({ show: false, type: '', message: '' });
+  const [alert, setAlert] = useState({ show: false, type: '', message: '', duration: 5 });
   const navigate = useNavigate();
   const { login, isAuthenticated } = useAuth();
 
@@ -38,11 +38,9 @@ const LoginForm = () => {
     try {
       const data = await loginService(username, password);
       login(data.token);
-      setAlert({ show: true, type: 'success', message: 'Login bem-sucedido. Redirecionando...' });
-      sessionStorage.setItem('showAlert', 'true');
       navigate('/dashboard');
     } catch (error) {
-      setAlert({ show: true, type: 'error', message: 'Falha no login. Verifique seu nome de usuário e senha.' });
+      setAlert({ show: true, type: 'error', message: 'Falha no login. Verifique seu nome de usuário e senha.', duration: 2 });
     }
   };
 
@@ -54,7 +52,7 @@ const LoginForm = () => {
 
   return (
     <LoginContainer>
-      {alert.show && <Alert type={alert.type} message={alert.message} onClose={() => setAlert({ ...alert, show: false })} />}
+      {alert.show && <Alert type={alert.type} message={alert.message} onClose={() => setAlert({ ...alert, show: false })} duration={alert.duration} />}
       <motion.div 
         initial={{ opacity: 0 }} 
         animate={{ opacity: 1 }} 

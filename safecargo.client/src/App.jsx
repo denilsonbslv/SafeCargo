@@ -26,15 +26,13 @@ const App = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <>
-      <AuthProvider>
-        <GlobalStyles />
-        <ThemeToggle onClick={toggleTheme}>
-          {theme === lightTheme ? <FaMoon /> : <FaSun />}
-        </ThemeToggle>
-        <AppRoutes />
-      </AuthProvider>
-    </>
+    <AuthProvider>
+      <GlobalStyles />
+      <ThemeToggle onClick={toggleTheme}>
+        {theme === lightTheme ? <FaMoon /> : <FaSun />}
+      </ThemeToggle>
+      <AppRoutes />
+    </AuthProvider>
   );
 };
 

@@ -1,22 +1,22 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 import Alert from '../components/Alert/Alert';
 
 const Dashboard = () => {
-  const [alert, setAlert] = useState({ show: false, type: '', message: '' });
+  const { loginSuccess, setLoginSuccess } = useAuth();
+  const [alert, setAlert] = useState({ show: false, type: '', message: '', duration: 5 });
 
   useEffect(() => {
-    const showAlert = sessionStorage.getItem('showAlert') === 'true';
-    if (showAlert) {
-      setAlert({ show: true, type: 'success', message: 'Login bem-sucedido. Bem-vindo ao dashboard!' });
-      sessionStorage.removeItem('showAlert'); // Remove o estado para que o alerta não apareça novamente
+    if (loginSuccess) {
+      setAlert({ show: true, type: 'success', message: 'Login bem-sucedido.', duration: 2 });
     }
-  }, []);
+  }, [loginSuccess, setLoginSuccess]);
 
   return (
     <div>
-      {alert.show && <Alert type={alert.type} message={alert.message} onClose={() => setAlert({ ...alert, show: false })} />}
+      {alert.show && <Alert type={alert.type} message={alert.message} onClose={() => setAlert({ ...alert, show: false })} duration={alert.duration} />}
       <h1>Dashboard</h1>
-      {/* Outros componentes do dashboard */}
+      {/* Rest of your dashboard content */}
     </div>
   );
 };

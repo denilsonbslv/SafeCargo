@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    // Add 'children' to props validation
   AuthProvider.propTypes = {
     children: PropTypes.node.isRequired,
   };
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [loginSuccess, setLoginSuccess] = useState(false);
 
   useEffect(() => {
     const validateToken = async () => {
@@ -39,6 +39,7 @@ export const AuthProvider = ({ children }) => {
   const login = (token) => {
     localStorage.setItem('token', token);
     setIsAuthenticated(true);
+    setLoginSuccess(true);
   };
 
   const logout = () => {
@@ -47,7 +48,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, isLoading, loginSuccess, setLoginSuccess }}>
       {children}
     </AuthContext.Provider>
   );
