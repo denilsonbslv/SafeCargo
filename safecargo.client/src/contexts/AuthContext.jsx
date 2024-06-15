@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   AuthProvider.propTypes = {
     children: PropTypes.node.isRequired,
   };
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [loginSuccess, setLoginSuccess] = useState(false);
