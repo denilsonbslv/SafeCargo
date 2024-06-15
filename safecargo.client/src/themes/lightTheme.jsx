@@ -8,7 +8,9 @@ const lightTheme = {
     inputBackground: '#fff',
     inputBorder: '#ccc',
     placeholderColor: '#888',
-    logoShadowColor: '#00000000'
+    logoShadowColor: '#00000000',
+    disabledBackground: '#e9ecef',
+  disabledTextColor: '#6c757d',
 };
 
 // export lightTheme

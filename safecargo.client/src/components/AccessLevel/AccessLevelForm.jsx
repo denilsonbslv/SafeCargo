@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Form, FormGroup, Label, Input, Button } from './AccessLevelForm.styles';
+import { FormContainer, FormGroup, Label, Input, Button, ButtonGroup } from './AccessLevelForm.styles';
 import Alert from '../Alert/Alert';
 
 const AccessLevelForm = ({ level, onSave, onCancel }) => {
@@ -36,13 +36,14 @@ const AccessLevelForm = ({ level, onSave, onCancel }) => {
           duration={5}
         />
       )}
-      <Form onSubmit={handleSubmit}>
+      <FormContainer>
         <FormGroup>
           <Label>Código do Nível de Acesso</Label>
           <Input
             type="text"
             value={codLevel}
             onChange={(e) => setCodLevel(e.target.value)}
+            disabled={Boolean(level)}
           />
         </FormGroup>
         <FormGroup>
@@ -61,9 +62,11 @@ const AccessLevelForm = ({ level, onSave, onCancel }) => {
             onChange={(e) => setDescription(e.target.value)}
           />
         </FormGroup>
-        <Button type="submit">Salvar</Button>
-        <Button type="button" onClick={onCancel}>Cancelar</Button>
-      </Form>
+        <ButtonGroup>
+          <Button type="submit" onClick={handleSubmit}>Salvar</Button>
+          <Button type="button" onClick={onCancel}>Cancelar</Button>
+        </ButtonGroup>
+      </FormContainer>
     </>
   );
 };

@@ -115,7 +115,7 @@ namespace SafeCargo.Server.Controllers
 
             await _accessLevelService.UpdateAccessLevelAsync(existingAccessLevel);
 
-            return NoContent(); // Usa o método NoContent de ControllerBase para retornar uma resposta HTTP 204
+            return Ok(existingAccessLevel); // Usa o método NoContent de ControllerBase para retornar uma resposta HTTP 204
         }
 
         /// <summary>

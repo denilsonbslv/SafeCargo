@@ -8,7 +8,9 @@ const darkTheme = {
     inputBackground: '#555',
     inputBorder: '#777',
     placeholderColor: '#bbb',
-    logoShadowColor: '#fff'
+    logoShadowColor: '#fff',
+    disabledBackground: '#343a40',
+    disabledTextColor: '#6c757d',
 };
 
 // export darkTheme

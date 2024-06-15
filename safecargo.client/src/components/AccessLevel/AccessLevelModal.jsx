@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
-import { Modal, ModalContent } from './AccessLevelModal.styles';
+import { ModalContainer, ModalContent } from './AccessLevelModal.styles';
 
 const AccessLevelModal = ({ show, onClose, children }) => {
   if (!show) return null;
 
   return (
-    <Modal onClick={onClose}>
+    <ModalContainer onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         {children}
       </ModalContent>
-    </Modal>
+    </ModalContainer>
   );
 };
 

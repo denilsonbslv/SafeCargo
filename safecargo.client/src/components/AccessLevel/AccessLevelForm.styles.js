@@ -1,42 +1,63 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
-export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
+export const FormContainer = styled.div`
+  background-color: ${({ theme }) => theme.boxBackground};
+  color: ${({ theme }) => theme.textColor};
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 80%;
+  margin: 0 auto;
+`;
+
+export const FormTitle = styled.h2`
+  margin-bottom: 20px;
+  text-align: center;
 `;
 
 export const FormGroup = styled.div`
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 `;
 
 export const Label = styled.label`
+  display: block;
   margin-bottom: 5px;
-  font-weight: bold;
   color: ${({ theme }) => theme.textColor};
 `;
 
-export const Input = styled.input`
-  padding: 8px;
-  border: 1px solid ${({ theme }) => theme.inputBorder};
-  border-radius: 4px;
-  color: ${({ theme }) => theme.textColor};
-  background-color: ${({ theme }) => theme.inputBackground};
-`;
-
-export const Button = styled.button`
+export const Input = styled(motion.input)`
+  width: calc(100% - 20px); /* Subtrai o padding para evitar tocar a borda */
   padding: 10px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background-color: ${({ theme }) => theme.buttonBackground};
-  color: ${({ theme }) => theme.buttonTextColor};
-
-  &:hover {
-    background-color: ${({ theme }) => theme.buttonHoverBackground};
+  border: 1px solid ${({ theme }) => theme.inputBorder};
+  border-radius: 5px;
+  background: ${({ theme }) => theme.inputBackground};
+  color: ${({ theme }) => theme.textColor};
+  &::placeholder {
+    color: ${({ theme }) => theme.placeholderColor};
   }
 
-  &:not(:last-child) {
-    margin-right: 10px;
+  &:disabled {
+    background: ${({ theme }) => theme.disabledBackground};
+    color: ${({ theme }) => theme.disabledTextColor};
+    cursor: not-allowed;
+  }
+`;
+
+export const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px; /* Espaçamento entre os botões */
+`;
+
+export const Button = styled(motion.button)`
+  padding: 10px 20px;
+  background: ${({ theme }) => theme.buttonBackground};
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background: ${({ theme }) => theme.buttonHoverBackground};
   }
 `;
