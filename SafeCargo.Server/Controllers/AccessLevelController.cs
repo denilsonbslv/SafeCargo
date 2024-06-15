@@ -39,7 +39,8 @@ namespace SafeCargo.Server.Controllers
                 accessLevelDTOs.Add(new AccessLevelDTO
                 {
                     CodLevel = accessLevel.CodLevel,
-                    DescLevel = accessLevel.DescLevel
+                    DescLevel = accessLevel.DescLevel,
+                    Description = accessLevel.Description
                 });
             }
 
@@ -64,7 +65,8 @@ namespace SafeCargo.Server.Controllers
             var accessLevelDTO = new AccessLevelDTO
             {
                 CodLevel = accessLevel.CodLevel,
-                DescLevel = accessLevel.DescLevel
+                DescLevel = accessLevel.DescLevel,
+                Description = accessLevel.Description
             };
 
             return Ok(accessLevelDTO); // Usa o método Ok de ControllerBase para retornar uma resposta HTTP 200 com o conteúdo
@@ -82,6 +84,7 @@ namespace SafeCargo.Server.Controllers
             {
                 CodLevel = accessLevelDTO.CodLevel,
                 DescLevel = accessLevelDTO.DescLevel,
+                Description = accessLevelDTO.Description,
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -107,6 +110,7 @@ namespace SafeCargo.Server.Controllers
             }
 
             existingAccessLevel.DescLevel = accessLevelDTO.DescLevel;
+            existingAccessLevel.Description = accessLevelDTO.Description;
             existingAccessLevel.UpdatedAt = DateTime.UtcNow;
 
             await _accessLevelService.UpdateAccessLevelAsync(existingAccessLevel);

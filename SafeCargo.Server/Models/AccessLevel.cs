@@ -24,6 +24,13 @@ namespace SafeCargo.Server.Models
         public string DescLevel { get; set; }
 
         /// <summary>
+        /// Descrição detalhada do nível de acesso.
+        /// </summary>
+        [Required]
+        [StringLength(256)]
+        public string Description { get; set; }
+
+        /// <summary>
         /// Data e hora de criação do Level.
         /// </summary>
         [Required]

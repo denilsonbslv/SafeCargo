@@ -57,40 +57,45 @@ namespace SafeCargo.Server.Data
 
             // Seed data para AccessLevel e User
             modelBuilder.Entity<AccessLevel>().HasData(
-                new AccessLevel{
+                new AccessLevel
+                {
                     CodLevel = "ADMIN",
                     DescLevel = "Administrador",
+                    Description = "Acesso total ao sistema, incluindo gerenciamento de usuários, veículos, mercadorias, relatórios e configurações do sistema.",
                     CreatedAt = DateTime.UtcNow
                 },
                 new AccessLevel
                 {
-                    CodLevel = "MANAGER",
-                    DescLevel = "Gerente",
-                    CreatedAt = DateTime.UtcNow
-                },
-                new AccessLevel
-                {
-                    CodLevel = "SUPERVISOR",
-                    DescLevel = "Supervisor",
-                    CreatedAt = DateTime.UtcNow
-                },
-                new AccessLevel
-                {
-                    CodLevel = "OPERATOR",
+                    CodLevel = "OPER",
                     DescLevel = "Operador",
+                    Description = "Acesso limitado para registrar entradas e saídas de veículos, atualizar status de mercadorias e visualizar relatórios.",
                     CreatedAt = DateTime.UtcNow
                 },
                 new AccessLevel
                 {
-                    CodLevel = "VIEWER",
-                    DescLevel = "Visualizador",
+                    CodLevel = "SUPV",
+                    DescLevel = "Supervisor",
+                    Description = "Acesso para supervisionar as operações de entrada e saída de veículos, monitorar status de mercadorias, e gerar relatórios.",
                     CreatedAt = DateTime.UtcNow
-                }
-            );
+                },
+                new AccessLevel
+                {
+                    CodLevel = "AUDT",
+                    DescLevel = "Auditor",
+                    Description = "Acesso para visualizar todos os registros e relatórios do sistema sem permissão para fazer alterações.",
+                    CreatedAt = DateTime.UtcNow
+                },
+                new AccessLevel
+                {
+                    CodLevel = "VIST",
+                    DescLevel = "Visitante",
+                    Description = "Acesso muito limitado apenas para visualizar informações públicas ou dados restritos aos visitantes.",
+                    CreatedAt = DateTime.UtcNow
+                });
 
             modelBuilder.Entity<User>().HasData(new User
             {
-                Id = 1, // Assume que o Id é gerado automaticamente e é 1 para o primeiro usuário
+                Id = 1,
                 Username = "admin",
                 PasswordHash = PasswordHasher.HashPassword("Admin@123"), // Hash da senha
                 CodLevel = "ADMIN",

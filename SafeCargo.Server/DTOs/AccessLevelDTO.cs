@@ -14,5 +14,11 @@
         /// Descrição do nível de acesso.
         /// </summary>
         public string DescLevel { get; set; }
+
+        /// <summary>
+        /// Descricao detalhada do nível de acesso.
+        /// </summary>
+        public string Description { get; set; }
+
     }
 }

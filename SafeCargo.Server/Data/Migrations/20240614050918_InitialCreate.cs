@@ -25,6 +25,8 @@ namespace SafeCargo.Server.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DescLevel = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
@@ -65,20 +67,20 @@ namespace SafeCargo.Server.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "AccessLevels",
-                columns: new[] { "CodLevel", "CreatedAt", "DeletedAt", "DescLevel", "UpdatedAt" },
+                columns: new[] { "CodLevel", "CreatedAt", "DeletedAt", "DescLevel", "Description", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { "ADMIN", new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1339), null, "Administrador", null },
-                    { "MANAGER", new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1372), null, "Gerente", null },
-                    { "OPERATOR", new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1374), null, "Operador", null },
-                    { "SUPERVISOR", new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1373), null, "Supervisor", null },
-                    { "VIEWER", new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1375), null, "Visualizador", null }
+                    { "ADMIN", new DateTime(2024, 6, 14, 5, 9, 18, 359, DateTimeKind.Utc).AddTicks(8159), null, "Administrador", "Acesso total ao sistema, incluindo gerenciamento de usuários, veículos, mercadorias, relatórios e configurações do sistema.", null },
+                    { "AUDT", new DateTime(2024, 6, 14, 5, 9, 18, 359, DateTimeKind.Utc).AddTicks(8164), null, "Auditor", "Acesso para visualizar todos os registros e relatórios do sistema sem permissão para fazer alterações.", null },
+                    { "OPER", new DateTime(2024, 6, 14, 5, 9, 18, 359, DateTimeKind.Utc).AddTicks(8162), null, "Operador", "Acesso limitado para registrar entradas e saídas de veículos, atualizar status de mercadorias e visualizar relatórios.", null },
+                    { "SUPV", new DateTime(2024, 6, 14, 5, 9, 18, 359, DateTimeKind.Utc).AddTicks(8163), null, "Supervisor", "Acesso para supervisionar as operações de entrada e saída de veículos, monitorar status de mercadorias, e gerar relatórios.", null },
+                    { "VIST", new DateTime(2024, 6, 14, 5, 9, 18, 359, DateTimeKind.Utc).AddTicks(8165), null, "Visitante", "Acesso muito limitado apenas para visualizar informações públicas ou dados restritos aos visitantes.", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CodLevel", "CreatedAt", "DeletedAt", "PasswordHash", "UpdatedAt", "Username" },
-                values: new object[] { 1, "ADMIN", new DateTime(2024, 6, 12, 6, 56, 52, 743, DateTimeKind.Utc).AddTicks(2507), null, "J+VLtw6/d7jyWHgNA6Fe3A==.M8EG1nUfxs1R/DImtqdp0e0SAkmnRZrh18e3lALUDUg=", null, "admin" });
+                values: new object[] { 1, "ADMIN", new DateTime(2024, 6, 14, 5, 9, 18, 360, DateTimeKind.Utc).AddTicks(9536), null, "EL8T6Zxe9vGDHO0DB4fgPQ==.arevG9fQBmkNgwUgKJJebubwwpzUiYH62MWa0OOaCNc=", null, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_CodLevel",

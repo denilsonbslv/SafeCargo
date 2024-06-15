@@ -11,7 +11,7 @@ using SafeCargo.Server.Data;
 namespace SafeCargo.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240612065653_InitialCreate")]
+    [Migration("20240614050918_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -39,6 +39,11 @@ namespace SafeCargo.Server.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
@@ -50,32 +55,37 @@ namespace SafeCargo.Server.Data.Migrations
                         new
                         {
                             CodLevel = "ADMIN",
-                            CreatedAt = new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1339),
-                            DescLevel = "Administrador"
+                            CreatedAt = new DateTime(2024, 6, 14, 5, 9, 18, 359, DateTimeKind.Utc).AddTicks(8159),
+                            DescLevel = "Administrador",
+                            Description = "Acesso total ao sistema, incluindo gerenciamento de usuários, veículos, mercadorias, relatórios e configurações do sistema."
                         },
                         new
                         {
-                            CodLevel = "MANAGER",
-                            CreatedAt = new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1372),
-                            DescLevel = "Gerente"
+                            CodLevel = "OPER",
+                            CreatedAt = new DateTime(2024, 6, 14, 5, 9, 18, 359, DateTimeKind.Utc).AddTicks(8162),
+                            DescLevel = "Operador",
+                            Description = "Acesso limitado para registrar entradas e saídas de veículos, atualizar status de mercadorias e visualizar relatórios."
                         },
                         new
                         {
-                            CodLevel = "SUPERVISOR",
-                            CreatedAt = new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1373),
-                            DescLevel = "Supervisor"
+                            CodLevel = "SUPV",
+                            CreatedAt = new DateTime(2024, 6, 14, 5, 9, 18, 359, DateTimeKind.Utc).AddTicks(8163),
+                            DescLevel = "Supervisor",
+                            Description = "Acesso para supervisionar as operações de entrada e saída de veículos, monitorar status de mercadorias, e gerar relatórios."
                         },
                         new
                         {
-                            CodLevel = "OPERATOR",
-                            CreatedAt = new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1374),
-                            DescLevel = "Operador"
+                            CodLevel = "AUDT",
+                            CreatedAt = new DateTime(2024, 6, 14, 5, 9, 18, 359, DateTimeKind.Utc).AddTicks(8164),
+                            DescLevel = "Auditor",
+                            Description = "Acesso para visualizar todos os registros e relatórios do sistema sem permissão para fazer alterações."
                         },
                         new
                         {
-                            CodLevel = "VIEWER",
-                            CreatedAt = new DateTime(2024, 6, 12, 6, 56, 52, 742, DateTimeKind.Utc).AddTicks(1375),
-                            DescLevel = "Visualizador"
+                            CodLevel = "VIST",
+                            CreatedAt = new DateTime(2024, 6, 14, 5, 9, 18, 359, DateTimeKind.Utc).AddTicks(8165),
+                            DescLevel = "Visitante",
+                            Description = "Acesso muito limitado apenas para visualizar informações públicas ou dados restritos aos visitantes."
                         });
                 });
 
@@ -122,8 +132,8 @@ namespace SafeCargo.Server.Data.Migrations
                         {
                             Id = 1,
                             CodLevel = "ADMIN",
-                            CreatedAt = new DateTime(2024, 6, 12, 6, 56, 52, 743, DateTimeKind.Utc).AddTicks(2507),
-                            PasswordHash = "J+VLtw6/d7jyWHgNA6Fe3A==.M8EG1nUfxs1R/DImtqdp0e0SAkmnRZrh18e3lALUDUg=",
+                            CreatedAt = new DateTime(2024, 6, 14, 5, 9, 18, 360, DateTimeKind.Utc).AddTicks(9536),
+                            PasswordHash = "EL8T6Zxe9vGDHO0DB4fgPQ==.arevG9fQBmkNgwUgKJJebubwwpzUiYH62MWa0OOaCNc=",
                             Username = "admin"
                         });
                 });
