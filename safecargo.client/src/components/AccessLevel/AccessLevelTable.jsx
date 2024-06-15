@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Table, IconButton } from './AccessLevelTable.styles';
+import { Table, IconButton, DeleteButton  } from './AccessLevelTable.styles';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const AccessLevelTable = ({ accessLevels, onEdit, onDelete }) => {
@@ -23,9 +23,9 @@ const AccessLevelTable = ({ accessLevels, onEdit, onDelete }) => {
               <IconButton onClick={() => onEdit(level)}>
                 <FaEdit />
               </IconButton>
-              <IconButton onClick={() => onDelete(level.codLevel)}>
+              <DeleteButton  onClick={() => onDelete(level.codLevel)}>
                 <FaTrash />
-              </IconButton>
+              </DeleteButton >
             </td>
           </tr>
         ))}

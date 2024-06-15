@@ -4,12 +4,16 @@ import AccessLevelForm from '../components/AccessLevel/AccessLevelForm';
 import AccessLevelModal from '../components/AccessLevel/AccessLevelModal';
 import AccessLevelTable from '../components/AccessLevel/AccessLevelTable';
 import Alert from '../components/Alert/Alert';
+import ConfirmationModal from '../components/ConfirmationModal/ConfirmationModal';
+import { Button } from './AccessLevelsPage.styles';
 
 const AccessLevels = () => {
   const [accessLevels, setAccessLevels] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [currentLevel, setCurrentLevel] = useState(null);
   const [alert, setAlert] = useState({ show: false, type: '', message: '', duration: 5 });
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [levelToDelete, setLevelToDelete] = useState(null);
 
   useEffect(() => {
     const getAccessLevels = async () => {
@@ -69,14 +73,25 @@ const AccessLevels = () => {
     setShowModal(false);
   };
 
+  const confirmDelete = (codLevel) => {
+    setLevelToDelete(codLevel);
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmDelete = () => {
+    handleDelete(levelToDelete);
+    setShowConfirmation(false);
+    setLevelToDelete(null);
+  };
+
   return (
     <div>
       <h1>Gerenciamento de Níveis de Acesso</h1>
-      <button onClick={() => handleShowModal(null)}>Adicionar Nível de Acesso</button>
+      <Button onClick={() => handleShowModal(null)}>Adicionar Nível</Button>
       <AccessLevelTable
         accessLevels={accessLevels}
         onEdit={handleShowModal}
-        onDelete={handleDelete}
+        onDelete={confirmDelete}
       />
       <AccessLevelModal show={showModal} onClose={handleHideModal}>
         <AccessLevelForm
@@ -86,6 +101,12 @@ const AccessLevels = () => {
         />
       </AccessLevelModal>
       {alert.show && <Alert type={alert.type} message={alert.message} onClose={() => setAlert({ ...alert, show: false })} duration={alert.duration} />}
+      <ConfirmationModal
+        show={showConfirmation}
+        message="Tem certeza que deseja excluir este nível de acesso?"
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setShowConfirmation(false)}
+      />
     </div>
   );
 };

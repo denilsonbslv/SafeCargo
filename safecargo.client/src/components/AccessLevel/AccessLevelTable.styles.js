@@ -16,3 +16,14 @@ export const IconButton = styled.button`
     color: ${({ theme }) => theme.buttonHoverBackground};
   }
 `;
+
+export const DeleteButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: ${({ theme }) => theme.textColor};
+  font-size: 18px;
+  &:hover {
+    color: red;
+  }
+`;
