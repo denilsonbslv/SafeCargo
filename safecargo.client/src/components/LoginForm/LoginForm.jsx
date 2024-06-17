@@ -37,7 +37,7 @@ const LoginForm = () => {
 
     try {
       const data = await loginService(username, password);
-      login(data.token);
+      login(data.token, data.user);
       navigate('/dashboard');
     } catch (error) {
       setAlert({ show: true, type: 'error', message: 'Falha no login. Verifique seu nome de usuário e senha.', duration: 2 });

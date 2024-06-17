@@ -6,9 +6,14 @@ export const FormContainer = styled.div`
   color: ${({ theme }) => theme.textColor};
   padding: 20px;
   border-radius: 8px;
-  width: 400px;
-  max-width: 80%;
+  width: 100%;
+  max-width: 400px;
   margin: 0 auto;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
 `;
 
 export const FormTitle = styled.h2`
@@ -27,7 +32,7 @@ export const Label = styled.label`
 `;
 
 export const Input = styled(motion.input)`
-  width: calc(100% - 20px); /* Subtrai o padding para evitar tocar a borda */
+  width: calc(100% - 20px);
   padding: 10px;
   border: 1px solid ${({ theme }) => theme.inputBorder};
   border-radius: 5px;
@@ -42,12 +47,21 @@ export const Input = styled(motion.input)`
     color: ${({ theme }) => theme.disabledTextColor};
     cursor: not-allowed;
   }
+
+  @media (max-width: 768px) {
+    width: calc(100% - 10px);
+    padding: 8px;
+  }
 `;
 
 export const ButtonGroup = styled.div`
   display: flex;
   justify-content: flex-end;
-  gap: 10px; /* Espaçamento entre os botões */
+  gap: 10px;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 `;
 
 export const Button = styled(motion.button)`
@@ -59,5 +73,9 @@ export const Button = styled(motion.button)`
   cursor: pointer;
   &:hover {
     background: ${({ theme }) => theme.buttonHoverBackground};
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px 16px;
   }
 `;

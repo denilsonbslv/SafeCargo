@@ -5,7 +5,7 @@ import AccessLevelModal from '../components/AccessLevel/AccessLevelModal';
 import AccessLevelTable from '../components/AccessLevel/AccessLevelTable';
 import Alert from '../components/Alert/Alert';
 import ConfirmationModal from '../components/ConfirmationModal/ConfirmationModal';
-import { Button } from './AccessLevelsPage.styles';
+import { Button, PageContainer, HeaderContent } from './AccessLevelsPage.styles';
 
 const AccessLevels = () => {
   const [accessLevels, setAccessLevels] = useState([]);
@@ -85,9 +85,11 @@ const AccessLevels = () => {
   };
 
   return (
-    <div>
-      <h1>Gerenciamento de Níveis de Acesso</h1>
-      <Button onClick={() => handleShowModal(null)}>Adicionar Nível</Button>
+    <PageContainer>
+      <HeaderContent>
+        <h1>Gerenciamento de Níveis de Acesso</h1>
+        <Button onClick={() => handleShowModal(null)}>Adicionar Nível</Button>
+      </HeaderContent>
       <AccessLevelTable
         accessLevels={accessLevels}
         onEdit={handleShowModal}
@@ -107,7 +109,7 @@ const AccessLevels = () => {
         onConfirm={handleConfirmDelete}
         onCancel={() => setShowConfirmation(false)}
       />
-    </div>
+    </PageContainer>
   );
 };
 

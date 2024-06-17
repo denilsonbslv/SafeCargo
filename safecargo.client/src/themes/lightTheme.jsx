@@ -10,7 +10,15 @@ const lightTheme = {
     placeholderColor: '#888',
     logoShadowColor: '#00000000',
     disabledBackground: '#e9ecef',
-  disabledTextColor: '#6c757d',
+    disabledTextColor: '#6c757d',
+    tableHeaderBackground: '#ddd',
+    tableHeaderTextColor: '#000',
+    tableRowEvenBackground: '#fff',
+    tableRowOddBackground: '#f7f7f7',
+    tableRowHoverBackground: '#e9ecef',
+    tableBorderColor: '#ccc',
+    tooltipBackground: '#000',
+    tooltipTextColor: '#fff',
 };
 
 // export lightTheme

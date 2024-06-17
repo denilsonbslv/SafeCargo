@@ -1,13 +1,10 @@
 import styled from 'styled-components';
 
 export const PageContainer = styled.div`
-  padding: 20px;
-`;
-
-export const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  padding-left: 1.5%;
+  padding-right: 1.5%;
 `;
 
 export const Button = styled.button`
@@ -21,4 +18,10 @@ export const Button = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.buttonHoverBackground};
   }
+`;
+
+export const HeaderContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;

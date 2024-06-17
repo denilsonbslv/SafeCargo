@@ -52,7 +52,18 @@ namespace SafeCargo.Server.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-            return Ok(new { Token = tokenString });
+            // criar um UserDTO para receber a informacoes que temos no user.
+            UserDTO userDTO = new UserDTO
+            {
+                Id = user.Id,
+                Username = user.Username,
+                CodLevel = user.CodLevel,
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt,
+                DeletedAt = user.DeletedAt
+            };
+
+            return Ok(new { Token = tokenString, User = userDTO });
         }
 
         /// <summary>

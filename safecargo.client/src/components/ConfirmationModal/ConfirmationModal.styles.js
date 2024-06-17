@@ -21,13 +21,24 @@ export const ModalContent = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   color: ${({ theme }) => theme.textColor};
   text-align: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 20px;
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
 `;
 
 export const ButtonGroup = styled.div`
   display: flex;
   justify-content: flex-end;
-  gap: 10px; /* Espaçamento entre os botões */
+  gap: 10px;
   margin-top: 20px;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 `;
 
 export const ConfirmButton = styled(motion.button)`
@@ -39,6 +50,10 @@ export const ConfirmButton = styled(motion.button)`
   cursor: pointer;
   &:hover {
     background: ${({ theme }) => theme.buttonHoverBackground};
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px 16px;
   }
 `;
 
@@ -52,16 +67,8 @@ export const CancelButton = styled(motion.button)`
   &:hover {
     background: darkred;
   }
-`;
 
-export const Button = styled.button`
-  padding: 10px 20px;
-  background: ${({ theme }) => theme.buttonBackground};
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  &:hover {
-    background: ${({ theme }) => theme.buttonHoverBackground};
+  @media (max-width: 768px) {
+    padding: 8px 16px;
   }
 `;

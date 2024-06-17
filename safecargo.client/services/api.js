@@ -85,14 +85,11 @@ const handleApiError = (error) => {
   if (error.response) {
     // A solicitação foi feita e o servidor respondeu com um código de status fora do alcance de 2xx
     console.error('Erro na resposta da API:', error.response.data);
-    alert(`Erro: ${error.response.data}`);
   } else if (error.request) {
     // A solicitação foi feita, mas nenhuma resposta foi recebida
     console.error('Erro na solicitação:', error.request);
-    alert('Erro na solicitação. Por favor, tente novamente.');
   } else {
     // Algo aconteceu ao configurar a solicitação que desencadeou um erro
     console.error('Erro:', error.message);
-    alert(`Erro: ${error.message}`);
   }
 };

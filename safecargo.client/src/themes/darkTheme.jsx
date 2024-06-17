@@ -11,6 +11,14 @@ const darkTheme = {
     logoShadowColor: '#fff',
     disabledBackground: '#343a40',
     disabledTextColor: '#6c757d',
+    tableHeaderBackground: '#444',
+    tableHeaderTextColor: '#fff',
+    tableRowEvenBackground: '#333',
+    tableRowOddBackground: '#3a3a3a',
+    tableRowHoverBackground: '#555',
+    tableBorderColor: '#777',
+    tooltipBackground: '#000',
+    tooltipTextColor: '#fff',
 };
 
 // export darkTheme
