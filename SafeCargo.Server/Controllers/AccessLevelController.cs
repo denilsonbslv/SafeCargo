@@ -130,7 +130,16 @@ namespace SafeCargo.Server.Controllers
 
             if (!result)
             {
-                return NotFound(); // Usa o método NotFound de ControllerBase para retornar uma resposta HTTP 404
+                // Se o nível de acesso não foi encontrado ou está em uso, retorna um erro apropriado
+                var accessLevel = await _accessLevelService.GetAccessLevelByCodAsync(codLevel);
+                if (accessLevel == null)
+                {
+                    return NotFound(); // Usa o método NotFound de ControllerBase para retornar uma resposta HTTP 404
+                }
+                else
+                {
+                    return BadRequest(new { Message = "O nível de acesso está em uso e não pode ser excluído." });
+                }
             }
 
             return NoContent(); // Usa o método NoContent de ControllerBase para retornar uma resposta HTTP 204

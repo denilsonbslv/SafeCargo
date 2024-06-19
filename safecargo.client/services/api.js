@@ -65,12 +65,12 @@ export const updateAccessLevel = async (level) => {
 };
 
 export const deleteAccessLevel = async (codLevel) => {
-  try {
-    await api.delete(`/accesslevel/${codLevel}`);
-  } catch (error) {
-    handleApiError(error);
-    throw error;
-  }
+    try {
+        await api.delete(`/accesslevel/${codLevel}`);
+    } catch (error) {
+        handleApiError(error);
+        throw error;
+    }
 };
 
 // Função para validar os dados do nível de acesso
@@ -82,14 +82,11 @@ const validateAccessLevel = (level) => {
 
 // Função para tratar erros da API
 const handleApiError = (error) => {
-  if (error.response) {
-    // A solicitação foi feita e o servidor respondeu com um código de status fora do alcance de 2xx
-    console.error('Erro na resposta da API:', error.response.data);
-  } else if (error.request) {
-    // A solicitação foi feita, mas nenhuma resposta foi recebida
-    console.error('Erro na solicitação:', error.request);
-  } else {
-    // Algo aconteceu ao configurar a solicitação que desencadeou um erro
-    console.error('Erro:', error.message);
-  }
+    if (error.response) {
+        console.error('Erro na resposta da API:', error.response.data);
+    } else if (error.request) {
+        console.error('Erro na solicitação:', error.request);
+    } else {
+        console.error('Erro:', error.message);
+    }
 };

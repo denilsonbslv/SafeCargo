@@ -52,16 +52,16 @@ const AccessLevels = () => {
     }
   };
 
-  const handleDelete = async (codLevel) => {
-    try {
-      await deleteAccessLevel(codLevel);
-      setAccessLevels(accessLevels.filter(level => level.codLevel !== codLevel));
-      setAlert({ show: true, type: 'success', message: 'Nível de acesso excluído com sucesso!', duration: 3 });
-    } catch (error) {
-      console.error('Failed to delete access level:', error);
-      setAlert({ show: true, type: 'error', message: 'Erro ao excluir nível de acesso.', duration: 3 });
-    }
-  };
+    const handleDelete = async (codLevel) => {
+        try {
+            await deleteAccessLevel(codLevel);
+            setAccessLevels(accessLevels.filter(level => level.codLevel !== codLevel));
+            setAlert({ show: true, type: 'success', message: 'Nível de acesso excluído com sucesso!', duration: 3 });
+        } catch (error) {
+            console.error('Failed to delete access level:', error);
+            setAlert({ show: true, type: 'error', message: error.response.data.message || 'Erro ao excluir nível de acesso.', duration: 3 });
+        }
+    };
 
   const handleShowModal = (level) => {
     setCurrentLevel(level);

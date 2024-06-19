@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using SafeCargo.Server.Interfaces;
 using SafeCargo.Server.Models;
+using SafeCargo.Server.Repositories;
 
 namespace SafeCargo.Server.Services
 {
@@ -13,6 +14,7 @@ namespace SafeCargo.Server.Services
     public class AccessLevelService : IAccessLevelService
     {
         private readonly IAccessLevelRepository _accessLevelRepository;
+        private readonly IUserService _userService;
         private readonly ILogger<AccessLevelService> _logger;
 
         /// <summary>
@@ -20,9 +22,10 @@ namespace SafeCargo.Server.Services
         /// </summary>
         /// <param name="accessLevelRepository">O repositório para acessar os dados dos níveis de acesso.</param>
         /// <param name="logger">O logger para logging de informações e erros.</param>
-        public AccessLevelService(IAccessLevelRepository accessLevelRepository, ILogger<AccessLevelService> logger)
+        public AccessLevelService(IAccessLevelRepository accessLevelRepository, IUserService userService, ILogger<AccessLevelService> logger)
         {
             _accessLevelRepository = accessLevelRepository;
+            _userService = userService;
             _logger = logger;
         }
 
@@ -115,6 +118,13 @@ namespace SafeCargo.Server.Services
                     return false;
                 }
 
+                var usersWithAccessLevel = await _userService.GetUsersByCodLevelAsync(codLevel);
+                if (usersWithAccessLevel.Any())
+                {
+                    _logger.LogWarning("Access level {CodLevel} is in use and cannot be deleted.", codLevel);
+                    return false;
+                }
+
                 var result = await _accessLevelRepository.DeleteAccessLevelAsync(accessLevel);
                 return result != null;
             }
@@ -124,5 +134,6 @@ namespace SafeCargo.Server.Services
                 throw;
             }
         }
+
     }
 }
