@@ -19,27 +19,28 @@ namespace SafeCargo.Server.Extensions
                     Description = "API para gerenciamento de usuários e níveis de acesso"
                 });
 
-                // Adicione comentários XML (opcional)
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
 
-                // Adicione a configuração de autenticação JWT
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                // Configure Swagger para autenticação via cookies
+                c.AddSecurityDefinition("cookieAuth", new OpenApiSecurityScheme
                 {
-                    In = ParameterLocation.Header,
-                    Description = "Por favor, insira o token JWT com o prefixo Bearer. Exemplo: 'Bearer {token}'",
-                    Name = "Authorization",
+                    Name = "AuthToken",
                     Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
+                    In = ParameterLocation.Cookie,
+                    Description = "Por favor, insira o token JWT no cookie 'AuthToken'."
                 });
 
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
                     {
-                        new OpenApiSecurityScheme {
-                            Reference = new OpenApiReference {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
                                 Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
+                                Id = "cookieAuth"
                             }
                         },
                         new string[] { }

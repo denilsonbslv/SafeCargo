@@ -1,19 +1,28 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "edge",
-      "request": "launch",
-      "name": "localhost (Edge)",
-      "url": "http://localhost:5173",
-      "webRoot": "${workspaceFolder}"
-    },
-    {
-      "type": "chrome",
-      "request": "launch",
-      "name": "localhost (Chrome)",
-      "url": "http://localhost:5173",
-      "webRoot": "${workspaceFolder}"
-    }
-  ]
-}
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Next.js: Desenvolvimento",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/node_modules/next/dist/bin/next",
+        "args": ["dev"],
+        "cwd": "${workspaceFolder}",
+        "runtimeExecutable": "node",
+        "env": {
+          "NODE_ENV": "development"
+        },
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen",
+        "outputCapture": "std"
+      },
+      {
+        "name": "Next: Chrome",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:3000",
+        "webRoot": "${workspaceFolder}"
+      }
+    ]
+  }
+  

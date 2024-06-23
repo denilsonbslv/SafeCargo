@@ -1,0 +1,39 @@
+/* Importando as diretivas base, componentes e utilitários do Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Remover o ícone de revelação de senha padrão em navegadores */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+/* Variáveis CSS para cores */
+:root {
+  --foreground-rgb: 0, 0, 0; /* Cor do texto em tema claro */
+  --background-start-rgb: 214, 219, 220; /* Cor de fundo inicial em tema claro */
+  --background-end-rgb: 255, 255, 255; /* Cor de fundo final em tema claro */
+}
+
+/* Ajustando as cores para o tema escuro */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255; /* Cor do texto em tema escuro */
+    --background-start-rgb: 0, 0, 0; /* Cor de fundo inicial em tema escuro */
+    --background-end-rgb: 0, 0, 0; /* Cor de fundo final em tema escuro */
+  }
+}
+
+/* Aplicando as cores ao body */
+body {
+  background-color: var(--background);
+  color: var(--textColor);
+}
+
+/* Adicionando uma nova utilidade ao Tailwind CSS */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance; /* Estilo de texto para equilibrar as linhas */
+  }
+}
