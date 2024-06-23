@@ -20,12 +20,22 @@ namespace SafeCargo.Server.Controllers
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Construtor do AuthController.
+        /// </summary>
+        /// <param name="userService">Serviço para gerenciamento de usuários.</param>
+        /// <param name="configuration">Configurações da aplicação.</param>
         public AuthController(IUserService userService, IConfiguration configuration)
         {
             _userService = userService;
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Realiza o login de um usuário.
+        /// </summary>
+        /// <param name="loginDTO">Dados de login do usuário.</param>
+        /// <returns>Token JWT e informações do usuário.</returns>
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
         {
@@ -35,25 +45,17 @@ namespace SafeCargo.Server.Controllers
                 return Unauthorized();
             }
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Username),
-                    new Claim(ClaimTypes.Role, user.CodLevel)
-                }),
-                Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-                Issuer = _configuration["Jwt:Issuer"],
-                Audience = _configuration["Jwt:Audience"]
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
+            var token = TokenHelper.GenerateJwtToken(user, _configuration);
 
-            // criar um UserDTO para receber a informacoes que temos no user.
-            UserDTO userDTO = new UserDTO
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true, // Defina como true em produção
+                SameSite = SameSiteMode.None,
+            };
+            Response.Cookies.Append("AuthToken", token, cookieOptions);
+
+            var userDTO = new UserDTO
             {
                 Id = user.Id,
                 Username = user.Username,
@@ -63,7 +65,7 @@ namespace SafeCargo.Server.Controllers
                 DeletedAt = user.DeletedAt
             };
 
-            return Ok(new { Token = tokenString, User = userDTO });
+            return Ok(new { User = userDTO });
         }
 
         /// <summary>
@@ -71,25 +73,23 @@ namespace SafeCargo.Server.Controllers
         /// </summary>
         /// <returns>True se o token for válido, caso contrário false.</returns>
         [HttpPost("validate-token")]
-        public IActionResult ValidateToken([FromBody] TokenDTO tokenDTO)
+        public IActionResult ValidateToken()
         {
-            if (string.IsNullOrEmpty(tokenDTO.Token))
+            if (!Request.Cookies.TryGetValue("AuthToken", out var token))
             {
-                return BadRequest("Token is required.");
+                return BadRequest("Token é necessário.");
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
             try
             {
-                tokenHandler.ValidateToken(tokenDTO.Token, new TokenValidationParameters
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    // Set ClockSkew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
-                    ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
 
                 return Ok(true);
@@ -98,6 +98,52 @@ namespace SafeCargo.Server.Controllers
             {
                 return Unauthorized();
             }
+        }
+
+        /// <summary>
+        /// Atualiza um token JWT expirado.
+        /// </summary>
+        /// <returns>Novo token JWT.</returns>
+        [HttpPost("refresh-token")]
+        public IActionResult RefreshToken()
+        {
+            if (!Request.Cookies.TryGetValue("AuthToken", out var token))
+            {
+                return BadRequest("Token é necessário.");
+            }
+
+            var principal = TokenHelper.GetPrincipalFromExpiredToken(token, _configuration);
+            if (principal == null)
+            {
+                return BadRequest("Token inválido.");
+            }
+
+            var newJwtToken = TokenHelper.GenerateJwtToken(new User
+            {
+                Username = principal.Identity.Name,
+                CodLevel = principal.FindFirst(ClaimTypes.Role).Value
+            }, _configuration);
+
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true, // Defina como true em produção
+                SameSite = SameSiteMode.None,
+            };
+            Response.Cookies.Append("AuthToken", newJwtToken, cookieOptions);
+
+            return Ok(new { Token = newJwtToken });
+        }
+
+        /// <summary>
+        /// Realiza o logout do usuário.
+        /// </summary>
+        /// <returns>Status 200 se o logout for bem-sucedido.</returns>
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("AuthToken");
+            return Ok(new { message = "Logout bem-sucedido" });
         }
     }
 }

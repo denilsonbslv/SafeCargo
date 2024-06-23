@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swagger UI</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.52.5/swagger-ui.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.52.5/swagger-ui-bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.52.5/swagger-ui-standalone-preset.js"></script>
+</head>
+<body>
+    <div id="swagger-ui"></div>
+    <script>
+        window.onload = function () {
+            const ui = SwaggerUIBundle({
+                url: "/swagger/v1/swagger.json",
+                dom_id: '#swagger-ui',
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIStandalonePreset
+                ],
+                layout: "StandaloneLayout"
+            })
+
+            // Your custom script here
+            function setCookie(name, value, days) {
+                var expires = "";
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires + "; path=/";
+            }
+
+            function getCookie(name) {
+                var nameEQ = name + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            }
+
+            var authContainer = document.querySelector('.auth-wrapper');
+            if (authContainer) {
+                var loginButton = document.createElement('button');
+                loginButton.innerHTML = 'Login';
+                loginButton.classList.add('btn', 'authorize', 'btn-dflt', 'auth');
+                loginButton.onclick = function () {
+                    var username = prompt('Username:');
+                    var password = prompt('Password:');
+                    fetch('/api/Auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username: username, password: password })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.token) {
+                            setCookie('AuthToken', data.token, 1);
+                            alert('Login successful!');
+                        } else {
+                            alert('Login failed!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Login failed!');
+                    });
+                };
+                authContainer.appendChild(loginButton);
+            }
+        }
+    </script>
+</body>
+</html>
