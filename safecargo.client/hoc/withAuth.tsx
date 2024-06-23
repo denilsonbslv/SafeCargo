@@ -1,7 +1,7 @@
-// hoc/withAuth.tsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/authContext';
 import { useRouter } from 'next/router';
+import LoadingScreen from '../components/LoadingScreen';
 
 interface WithAuthProps {
   requiredCodLevel: string;
@@ -14,6 +14,7 @@ const withAuth = (
   const WithAuth: React.FC<any> = (props) => {
     const { codLevel, loading } = useAuth();
     const router = useRouter();
+    const [isAuthorized, setIsAuthorized] = useState(false);
 
     useEffect(() => {
       if (!loading) {
@@ -21,16 +22,14 @@ const withAuth = (
           router.push('/login');
         } else if (codLevel !== requiredCodLevel) {
           router.push('/');
+        } else {
+          setIsAuthorized(true);
         }
       }
     }, [codLevel, loading, router]);
 
-    if (loading) {
-      return <div>Loading...</div>; // Pode substituir por um spinner ou outro componente de carregamento
-    }
-
-    if (!codLevel || codLevel !== requiredCodLevel) {
-      return null;
+    if (loading || !isAuthorized) {
+      return <LoadingScreen />;
     }
 
     return <WrappedComponent {...props} />;

@@ -2,7 +2,7 @@
 
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { ThemeProvider } from '../components/ThemeContext';
+import { ThemeProvider } from '../contexts/ThemeContext';
 import ThemeToggleButton from '../components/ui/ThemeToggleButton';
 import { AuthProvider } from '../contexts/authContext';
 
@@ -17,12 +17,12 @@ import { AuthProvider } from '../contexts/authContext';
  */
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AuthProvider>
-      <ThemeProvider>
+    <ThemeProvider>
+      <AuthProvider>
         <Component {...pageProps} />
         <ThemeToggleButton />
-      </ThemeProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

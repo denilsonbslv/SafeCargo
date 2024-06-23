@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import CustomHead from '../components/CustomHead';
-import { useTheme } from '../components/ThemeContext';
+import { useTheme } from '../contexts/ThemeContext';
 import ThemeToggleButton from '../components/ui/ThemeToggleButton';
 import CustomAlert from '../components/ui/CustomAlert';
 import Link from 'next/link';

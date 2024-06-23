@@ -4,7 +4,7 @@ import cookie from 'cookie';
 import Image from 'next/image';
 import router, { useRouter } from 'next/router';
 import CustomHead from '../components/CustomHead';
-import { useTheme } from '../components/ThemeContext';
+import { useTheme } from '../contexts/ThemeContext';
 import Button from '../components/ui/Button';
 import CustomAlert from '../components/ui/CustomAlert';
 import Input from '../components/ui/Input';

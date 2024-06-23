@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useTheme } from '../ThemeContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import { darkTheme } from '../../styles/themes';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
 
