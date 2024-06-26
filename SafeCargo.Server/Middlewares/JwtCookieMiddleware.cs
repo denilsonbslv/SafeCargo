@@ -10,17 +10,30 @@ using System.Threading.Tasks;
 
 namespace SafeCargo.Server.Middlewares
 {
+    /// <summary>
+    /// Middleware para validar e processar tokens JWT armazenados em cookies.
+    /// </summary>
     public class JwtCookieMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Construtor do JwtCookieMiddleware.
+        /// </summary>
+        /// <param name="next">Próximo middleware na pipeline.</param>
+        /// <param name="configuration">Configurações da aplicação.</param>
         public JwtCookieMiddleware(RequestDelegate next, IConfiguration configuration)
         {
             _next = next;
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Método Invoke, responsável por processar a requisição HTTP e validar o token JWT.
+        /// </summary>
+        /// <param name="context">Contexto da requisição HTTP.</param>
+        /// <returns>Uma tarefa que representa a execução do middleware.</returns>
         public async Task Invoke(HttpContext context)
         {
             if (context.Request.Cookies.ContainsKey("AuthToken"))
@@ -41,14 +54,23 @@ namespace SafeCargo.Server.Middlewares
                     }, out SecurityToken validatedToken);
 
                     var jwtToken = (JwtSecurityToken)validatedToken;
-                    var username = jwtToken.Claims.First(x => x.Type == ClaimTypes.Name).Value;
+                    var usernameClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name || x.Type == "unique_name");
+                    var roleClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role || x.Type == "role");
 
-                    // Anexa as informações do usuário ao contexto
-                    context.Items["User"] = username;
+                    if (usernameClaim != null && roleClaim != null)
+                    {
+                        var claims = new[]
+                        {
+                            new Claim(ClaimTypes.Name, usernameClaim.Value),
+                            new Claim(ClaimTypes.Role, roleClaim.Value)
+                        };
+                        var identity = new ClaimsIdentity(claims, "Cookies");
+                        context.User = new ClaimsPrincipal(identity);
+                    }
                 }
                 catch
                 {
-                    // Token inválido, pode optar por remover o cookie
+                    // Token inválido, remove o cookie AuthToken
                     context.Response.Cookies.Delete("AuthToken");
                 }
             }

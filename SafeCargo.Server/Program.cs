@@ -76,8 +76,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowSpecificOrigin");
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseRequestLogging();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseRequestLogging(); // Adicionar o middleware personalizado aqui
 app.MapControllers();
 app.Run();

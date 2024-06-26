@@ -44,7 +44,7 @@ namespace SafeCargo.Server.Controllers
                 });
             }
 
-            return Ok(accessLevelDTOs); // Usa o método Ok de ControllerBase para retornar uma resposta HTTP 200 com o conteúdo
+            return Ok(accessLevelDTOs);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace SafeCargo.Server.Controllers
 
             if (accessLevel == null)
             {
-                return NotFound(); // Usa o método NotFound de ControllerBase para retornar uma resposta HTTP 404
+                return NotFound();
             }
 
             var accessLevelDTO = new AccessLevelDTO
@@ -69,7 +69,7 @@ namespace SafeCargo.Server.Controllers
                 Description = accessLevel.Description
             };
 
-            return Ok(accessLevelDTO); // Usa o método Ok de ControllerBase para retornar uma resposta HTTP 200 com o conteúdo
+            return Ok(accessLevelDTO);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace SafeCargo.Server.Controllers
 
             var createdAccessLevel = await _accessLevelService.CreateAccessLevelAsync(accessLevel);
 
-            return CreatedAtAction(nameof(GetByCodLevel), new { codLevel = createdAccessLevel.CodLevel }, accessLevelDTO); // Usa o método CreatedAtAction de ControllerBase para retornar uma resposta HTTP 201 com o conteúdo
+            return CreatedAtAction(nameof(GetByCodLevel), new { codLevel = createdAccessLevel.CodLevel }, accessLevelDTO);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace SafeCargo.Server.Controllers
 
             if (existingAccessLevel == null)
             {
-                return NotFound(); // Usa o método NotFound de ControllerBase para retornar uma resposta HTTP 404
+                return NotFound();
             }
 
             existingAccessLevel.DescLevel = accessLevelDTO.DescLevel;
@@ -115,7 +115,7 @@ namespace SafeCargo.Server.Controllers
 
             await _accessLevelService.UpdateAccessLevelAsync(existingAccessLevel);
 
-            return Ok(existingAccessLevel); // Usa o método NoContent de ControllerBase para retornar uma resposta HTTP 204
+            return Ok(existingAccessLevel);
         }
 
         /// <summary>
@@ -130,11 +130,10 @@ namespace SafeCargo.Server.Controllers
 
             if (!result)
             {
-                // Se o nível de acesso não foi encontrado ou está em uso, retorna um erro apropriado
                 var accessLevel = await _accessLevelService.GetAccessLevelByCodAsync(codLevel);
                 if (accessLevel == null)
                 {
-                    return NotFound(); // Usa o método NotFound de ControllerBase para retornar uma resposta HTTP 404
+                    return NotFound();
                 }
                 else
                 {
@@ -142,7 +141,7 @@ namespace SafeCargo.Server.Controllers
                 }
             }
 
-            return NoContent(); // Usa o método NoContent de ControllerBase para retornar uma resposta HTTP 204
+            return NoContent();
         }
     }
 }
